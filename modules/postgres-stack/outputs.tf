@@ -18,3 +18,12 @@ output "backup_bucket_name" {
   description = "GCS bucket used for PostgreSQL backups"
   value       = module.postgres.backup_bucket_name
 }
+output "secrets" {
+  description = "Map of Secret Manager secret IDs for PostgreSQL credentials"
+  value       = module.postgres.secrets
+}
+
+output "zone" {
+  description = "Compute zone where the PostgreSQL instance is deployed"
+  value       = module.postgres.zone
+}
