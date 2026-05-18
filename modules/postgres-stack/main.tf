@@ -1,5 +1,5 @@
 module "postgres" {
-  source  = "git::https://github.com/DarojaAI/gcp-postgres-terraform.git//terraform?ref=v4.1.0"
+  source  = "git::https://github.com/DarojaAI/gcp-postgres-terraform.git//terraform?ref=v4.2.0"
 
   # Required inputs (passed through from caller)
   project_id           = var.project_id
