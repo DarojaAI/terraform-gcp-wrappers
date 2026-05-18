@@ -18,3 +18,8 @@ output "backup_bucket_name" {
   description = "GCS bucket used for PostgreSQL backups"
   value       = module.postgres.backup_bucket_name
 }
+
+output "secret_names" {
+  description = "Secret Manager secret names for credentials"
+  value       = module.postgres.secret_names
+}
