@@ -107,4 +107,15 @@ module "postgres" {
   # Labels (passed through)
   # ---------------------------------------------------------------------------
   labels = var.labels
+
+  # ---------------------------------------------------------------------------
+  # Lifecycle: ignore enable_display drift between provider versions
+  # This attribute changed behavior in GCP provider 5.x, causing false-positive
+  # instance replacement on every plan when the attribute was absent in live state.
+  # ---------------------------------------------------------------------------
+  lifecycle {
+    ignore_changes = [
+      enable_display,
+    ]
+  }
 }
