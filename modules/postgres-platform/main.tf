@@ -11,7 +11,7 @@
 # =============================================================================
 
 module "postgres" {
-  source  = "git::https://github.com/DarojaAI/gcp-postgres-terraform.git//terraform?ref=v4.2.2"
+  source  = "git::https://github.com/DarojaAI/gcp-postgres-terraform.git//terraform?ref=v4.2.3"
 
   # ---------------------------------------------------------------------------
   # Required inputs (passed through from caller)
