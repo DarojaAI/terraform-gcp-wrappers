@@ -11,7 +11,7 @@
 # =============================================================================
 
 module "postgres" {
-  source  = "git::https://github.com/DarojaAI/gcp-postgres-terraform.git//terraform?ref=v4.2.1"
+  source  = "git::https://github.com/DarojaAI/gcp-postgres-terraform.git//terraform?ref=v4.2.2"
 
   # ---------------------------------------------------------------------------
   # Required inputs (passed through from caller)
@@ -107,15 +107,4 @@ module "postgres" {
   # Labels (passed through)
   # ---------------------------------------------------------------------------
   labels = var.labels
-
-  # ---------------------------------------------------------------------------
-  # Lifecycle: ignore enable_display drift between provider versions
-  # This attribute changed behavior in GCP provider 5.x, causing false-positive
-  # instance replacement on every plan when the attribute was absent in live state.
-  # ---------------------------------------------------------------------------
-  lifecycle {
-    ignore_changes = [
-      enable_display,
-    ]
-  }
 }
