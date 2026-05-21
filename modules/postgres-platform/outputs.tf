@@ -5,6 +5,11 @@
 # State addresses remain module.postgres.module.postgres.* for compatibility.
 # =============================================================================
 
+output "zone" {
+  description = "Zone where the PostgreSQL VM is running"
+  value       = module.postgres.zone
+}
+
 output "internal_ip" {
   description = "Internal IP address of the PostgreSQL VM"
   value       = module.postgres.internal_ip
