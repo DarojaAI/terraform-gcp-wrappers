@@ -11,7 +11,7 @@
 # =============================================================================
 
 module "postgres" {
-  source  = "git::https://github.com/DarojaAI/gcp-postgres-terraform.git//terraform?ref=v4.2.5"
+  source  = "git::https://github.com/DarojaAI/gcp-postgres-terraform.git//terraform?ref=v4.2.6"
 
   # ---------------------------------------------------------------------------
   # Required inputs (passed through from caller)
@@ -40,6 +40,7 @@ module "postgres" {
   machine_type     = var.machine_type
   region           = var.region
   zone             = var.zone
+  postgres_port        = var.postgres_port
 
   # ---------------------------------------------------------------------------
   # Disk and machine (passed through)

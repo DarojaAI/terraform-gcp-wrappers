@@ -91,6 +91,13 @@ variable "postgres_db_user" {
   description = "Name of the application database user"
 }
 
+variable "postgres_port" {
+  type        = number
+  default     = 5432
+  description = "PostgreSQL port"
+}
+
+
 variable "machine_type" {
   type        = string
   default     = "e2-micro"
