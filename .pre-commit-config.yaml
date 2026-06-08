@@ -31,7 +31,7 @@ repos:
       - id: terraform_validate
 
   # Yamllint — YAML validation
-  - repo: https://github.com/pre-commit/mirrors-yamllint
+  - repo: https://github.com/adrienverge/yamllint
     rev: v1.33.0
     hooks:
       - id: yamllint
