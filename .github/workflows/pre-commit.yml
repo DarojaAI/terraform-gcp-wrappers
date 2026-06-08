@@ -36,10 +36,10 @@ jobs:
       - name: Install pre-commit
         run: pip install -r requirements.txt
 
-      - name: Run pre-commit (all files)
+      - name: Run pre-commit on changed files
         env:
           PRE_COMMIT_NO_FETCH_TAGS: '1'
-        run: pre-commit run --all-files --show-diff-on-failure
+        run: pre-commit run --show-diff-on-failure
 
       - name: Comment on PR with results
         if: github.event_name == 'pull_request' && failure()
@@ -50,5 +50,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'Pre-commit checks failed. Run locally: `pip install -r requirements.txt && pre-commit install && pre-commit run --all-files`'
+              body: 'Pre-commit checks failed. Run locally: `pip install -r requirements.txt && pre-commit install && pre-commit run`'
             })
