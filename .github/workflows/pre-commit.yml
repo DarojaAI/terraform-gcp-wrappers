@@ -13,9 +13,34 @@ permissions:
 jobs:
   pre-commit:
     name: Pre-Commit Validation
-    uses: DarojaAI/infra-actions/.github/workflows/reusable-pre-commit.yml@main
-    with:
-      terraform-version: '1.15.1'
-      post-comment: true
-    secrets:
-      github-token: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install pre-commit
+        run: pip install -r requirements.txt
+
+      - name: Run pre-commit (all files)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: pre-commit run --all-files --show-diff-on-failure
+
+      - name: Comment on PR with results
+        if: github.event_name == 'pull_request' && failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'Pre-commit checks failed. Run locally: `pip install -r requirements.txt && pre-commit install && pre-commit run --all-files`'
+            })
