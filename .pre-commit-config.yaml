@@ -23,21 +23,22 @@ repos:
       - id: actionlint
         files: ^\.github/workflows/.*\.ya?ml$
 
-  # Terraform fmt + validate
+  # Terraform fmt — only the active wrapper module (postgres-platform).
+  # Other modules in this repo are archived; skip them.
+  # terraform_validate is handled by ci.yml (reusable-terraform-stub-plan).
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.86.0
     hooks:
       - id: terraform_fmt
-      - id: terraform_validate
+        files: ^modules/postgres-platform/.*\.tf$
 
   # Yamllint — YAML validation
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.33.0
     hooks:
       - id: yamllint
-        args: [--strict, --allow-unicode]
+        args: [--strict]
         files: ^\.github/workflows/|^modules/
-
   # Gitleaks — secrets detection
   - repo: https://github.com/gitleaks/gitleaks
     rev: v8.18.0
