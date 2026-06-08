@@ -1,0 +1,21 @@
+name: Pre-Commit Checks
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  pre-commit:
+    name: Pre-Commit Validation
+    uses: DarojaAI/infra-actions/.github/workflows/reusable-pre-commit.yml@main
+    with:
+      terraform-version: '1.15.1'
+      post-comment: true
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  pre-commit:
+    name: Pre-Commit Validation
+    uses: DarojaAI/infra-actions/.github/workflows/reusable-pre-commit.yml@main
+    with:
+      terraform-version: '1.15.1'
+      post-comment: true
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  terraform-stub-plan:
+    name: Terraform Stub Plan (templatefile validation)
+    uses: DarojaAI/infra-actions/.github/workflows/reusable-terraform-stub-plan.yml@main
+    with:
+      terraform-version: '1.15.1'
+      working-directory: 'modules/postgres-platform'
+      backend-file: 'modules/postgres-platform/backend.tf'
+      module-cache-path: 'modules/postgres-platform/.terraform/modules'
+      cache-key-file: 'modules/postgres-platform/main.tf'
+      stub-vars-json: '{}'
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
