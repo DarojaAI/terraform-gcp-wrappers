@@ -11,7 +11,7 @@
 # =============================================================================
 
 module "postgres" {
-  source  = "git::https://github.com/DarojaAI/gcp-postgres-terraform.git//terraform?ref=v4.3.0"
+  source = "git::https://github.com/DarojaAI/gcp-postgres-terraform.git//terraform?ref=v4.3.0"
 
   # ---------------------------------------------------------------------------
   # Required inputs (passed through from caller)
@@ -40,7 +40,7 @@ module "postgres" {
   machine_type     = var.machine_type
   region           = var.region
   zone             = var.zone
-  postgres_port        = var.postgres_port
+  postgres_port    = var.postgres_port
 
   # ---------------------------------------------------------------------------
   # Disk and machine (passed through)
@@ -53,47 +53,47 @@ module "postgres" {
   # ---------------------------------------------------------------------------
   # Networking (passed through with VPC-only defaults)
   # ---------------------------------------------------------------------------
-  assign_external_ip    = var.assign_external_ip    # default: false (VPC-only)
-  allow_ssh_from_cidrs  = var.allow_ssh_from_cidrs  # default: []
-  allow_postgres_from_cidrs = var.allowed_source_cidrs
-  vpc_connector_cidr    = var.vpc_connector_cidr
+  assign_external_ip          = var.assign_external_ip   # default: false (VPC-only)
+  allow_ssh_from_cidrs        = var.allow_ssh_from_cidrs # default: []
+  allow_postgres_from_cidrs   = var.allowed_source_cidrs
+  vpc_connector_cidr          = var.vpc_connector_cidr
   vpc_connector_min_instances = var.vpc_connector_min_instances
   vpc_connector_max_instances = var.vpc_connector_max_instances
 
   # ---------------------------------------------------------------------------
   # Backup configuration (passed through with organizational defaults)
   # ---------------------------------------------------------------------------
-  enable_backups          = var.enable_backups          # default: true
+  enable_backups          = var.enable_backups # default: true
   backup_bucket_name      = var.backup_bucket_name
-  backup_retention_days   = var.backup_retention_days   # default: 30
+  backup_retention_days   = var.backup_retention_days # default: 30
   backup_schedule         = var.backup_schedule
   snapshot_retention_days = var.snapshot_retention_days
 
   # ---------------------------------------------------------------------------
   # Monitoring (passed through with organizational defaults)
   # ---------------------------------------------------------------------------
-  enable_monitoring           = var.enable_monitoring           # default: true
+  enable_monitoring           = var.enable_monitoring # default: true
   disk_usage_alert_threshold  = var.disk_usage_alert_threshold
   alert_notification_channels = var.alert_notification_channels
 
   # ---------------------------------------------------------------------------
   # PostgreSQL runtime tuning (passed through)
   # ---------------------------------------------------------------------------
-  max_connections       = var.max_connections
-  shared_buffers        = var.shared_buffers
-  work_mem              = var.work_mem
-  maintenance_work_mem  = var.maintenance_work_mem
+  max_connections      = var.max_connections
+  shared_buffers       = var.shared_buffers
+  work_mem             = var.work_mem
+  maintenance_work_mem = var.maintenance_work_mem
 
   # ---------------------------------------------------------------------------
   # Schema injection (THE FIX — was omitted in postgres-stack)
   # ---------------------------------------------------------------------------
-  init_sql        = var.init_sql        # default: ""
+  init_sql         = var.init_sql         # default: ""
   pgvector_enabled = var.pgvector_enabled # default: true
 
   # ---------------------------------------------------------------------------
   # Cloud NAT (passed through with VPC-only default)
   # ---------------------------------------------------------------------------
-  enable_cloud_nat = var.enable_cloud_nat  # default: true (required for no-external-IP)
+  enable_cloud_nat = var.enable_cloud_nat # default: true (required for no-external-IP)
 
   # ---------------------------------------------------------------------------
   # Advanced (passed through)
