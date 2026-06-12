@@ -46,3 +46,29 @@ output "connection_string_external" {
   value       = module.postgres.connection_string_external
   sensitive   = true
 }
+
+# =============================================================================
+# vm_changed — for CI post-apply wait gating
+# =============================================================================
+# Returns `true` when the postgres VM was created or replaced in the most
+# recent apply (i.e. the VM is being (re)booted and a post-apply
+# serial-port wait is necessary). Returns `false` when the VM existed
+# before this apply and is unchanged (no reboot needed).
+#
+# Implementation: queries the instance from GCP. If the data source
+# can't find the instance (because it doesn't exist yet, or is being
+# replaced), `vm_changed` is `true`. If the instance exists, `false`.
+#
+# Use this in CI to gate the `gcloud compute instances
+# get-serial-port-output` poll that waits for PostgreSQL to start.
+# Saves up to 15 min of CI time per no-op apply.
+#
+# See issue #10 for the original ask, and #11 for the design history.
+# This output supersedes both issues' proposed implementations by
+# using a `data` source (no inner-module fork required).
+# =============================================================================
+
+output "vm_changed" {
+  description = "True if the postgres VM was created or replaced in this apply (caller should wait for boot). False if the VM existed and was unchanged (no wait needed). Use to gate post-apply serial-port polling in CI."
+  value       = try(data.google_compute_instance.postgres.self_link, null) == null
+}

@@ -109,3 +109,34 @@ module "postgres" {
   # ---------------------------------------------------------------------------
   labels = var.labels
 }
+
+# ----------------------------------------------------------------------------
+# vm_changed signal — for CI post-apply wait gating
+# ----------------------------------------------------------------------------
+# Reads the postgres VM's current state from GCP. If the instance exists,
+# it was created in a previous apply and doesn't need a fresh boot wait.
+# If the instance is being created or replaced in this apply, the data
+# source will fail to find it (or find the new one mid-replace), and
+# `vm_changed` returns `true` — meaning the caller should wait for boot.
+#
+# Why a data source (not lifecycle_operation):
+#   - `lifecycle_operation` is a resource-level attribute, not exposed
+#     through the inner `gcp-postgres-terraform` module's outputs. To
+#     read it from this wrapper, we'd have to fork the inner module.
+#   - A data source lookup at plan time gives the same signal ("is this
+#     instance brand new?") without touching the inner module. The data
+#     source is evaluated at plan time, so the signal is available to
+#     the caller's plan-phase gating logic.
+#   - This matches the Python fallback in dev-nexus
+#     (`scripts/ci/detect_pg_vm_changed.py`) — both read plan-time
+#     state to decide whether the VM will (re)boot.
+#
+# Use case: gate the post-apply `gcloud compute instances
+# get-serial-port-output` poll in CI workflows. Saves up to 15 min of
+# CI time on no-op applies (the common case for most PRs).
+# ----------------------------------------------------------------------------
+data "google_compute_instance" "postgres" {
+  project = var.project_id
+  name    = module.postgres.instance_name
+  zone    = module.postgres.zone
+}
