@@ -1,6 +1,6 @@
 {
   "name": "terraform-gcp-wrappers",
-  "version": "2.0.10",
+  "version": "2.2.0",
   "private": true,
   "description": "Reusable Terraform module wrappers for GCP resources"
 }
