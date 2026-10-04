@@ -4,7 +4,7 @@ Opinionated Terraform wrapper module for deploying PostgreSQL on GCP Compute Eng
 
 ## What it wraps
 
-- [`gcp-postgres-terraform`](https://github.com/DarojaAI/gcp-postgres-terraform) pinned to `v4.1.0`
+- [`gcp-postgres-terraform`](https://github.com/DarojaAI/gcp-postgres-terraform) pinned to `v4.2.0`
 
 ## Organizational defaults (non-configurable)
 
