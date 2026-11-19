@@ -140,3 +140,5 @@ data "google_compute_instance" "postgres" {
   name    = module.postgres.instance_name
   zone    = module.postgres.zone
 }
+
+# ci probe: exercise terraform_validate (reverted in the next commit)
