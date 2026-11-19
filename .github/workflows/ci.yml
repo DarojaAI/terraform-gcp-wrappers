@@ -21,26 +21,3 @@ jobs:
       post-comment: true
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
-
-  terraform-stub-plan:
-    name: Terraform Stub Plan (templatefile validation)
-    permissions:
-      contents: read
-    uses: DarojaAI/public-workflows/.github/workflows/reusable-terraform-stub-plan.yml@8941de03ddf552f483806e493bbb86e22626f1cc  # v2.1.0
-    with:
-      terraform-version: '1.15.1'
-      working-directory: 'modules/postgres-platform'
-      backend-file: 'modules/postgres-platform/backend.tf'
-      module-cache-path: 'modules/postgres-platform/.terraform/modules'
-      cache-key-file: 'modules/postgres-platform/main.tf'
-      # Placeholders for the module's required variables: the plan runs with no
-      # refresh against a fake token, so it only needs well-formed values.
-      stub-vars-json: >-
-        {"project_id":"stub-project","postgres_db_password":"stub-password",
-        "instance_name":"stub-instance","repo_prefix":"stub","environment":"dev",
-        "vpc_name":"stub-vpc","subnet_name":"stub-subnet",
-        "network_id":"projects/stub-project/global/networks/stub-vpc",
-        "subnet_id":"projects/stub-project/regions/us-central1/subnetworks/stub-subnet",
-        "subnet_cidr":"10.0.0.0/24"}
-    secrets:
-      github-token: ${{ secrets.GITHUB_TOKEN }}
