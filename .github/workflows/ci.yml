@@ -12,7 +12,10 @@ env:
 jobs:
   pre-commit:
     name: Pre-Commit Validation
-    uses: DarojaAI/infra-actions/.github/workflows/reusable-pre-commit.yml@main
+    permissions:
+      contents: read
+      pull-requests: write  # post-comment
+    uses: DarojaAI/public-workflows/.github/workflows/reusable-pre-commit.yml@8941de03ddf552f483806e493bbb86e22626f1cc  # v2.1.0
     with:
       terraform-version: '1.15.1'
       post-comment: true
@@ -21,7 +24,9 @@ jobs:
 
   terraform-stub-plan:
     name: Terraform Stub Plan (templatefile validation)
-    uses: DarojaAI/infra-actions/.github/workflows/reusable-terraform-stub-plan.yml@main
+    permissions:
+      contents: read
+    uses: DarojaAI/public-workflows/.github/workflows/reusable-terraform-stub-plan.yml@8941de03ddf552f483806e493bbb86e22626f1cc  # v2.1.0
     with:
       terraform-version: '1.15.1'
       working-directory: 'modules/postgres-platform'
